@@ -45,4 +45,9 @@ map_NP :: (forall x . f x -> g x) -> NP f xs -> NP g xs
 map_NP _ Nil = Nil
 map_NP f (x :* xs) = f x :* map_NP f xs
 
+eq_NP :: (All Eq xs) => NP I xs -> NP I xs -> Bool
+eq_NP Nil Nil = True
+eq_NP (I x :* xs) (I y :* ys) = x == y && eq_NP xs ys
+eq_NP _ _ = undefined -- satisfy current exhaustivity checker
+
 -- cmap_NP :: (forall x . c x => f x -> g x) -> NP f xs -> NP g xs
