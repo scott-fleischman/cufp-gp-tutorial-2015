@@ -40,3 +40,9 @@ newtype I a = I a -- identity
 
 newtype K a b = K a -- constant
   deriving Show
+
+map_NP :: (forall x . f x -> g x) -> NP f xs -> NP g xs
+map_NP _ Nil = Nil
+map_NP f (x :* xs) = f x :* map_NP f xs
+
+-- cmap_NP :: (forall x . c x => f x -> g x) -> NP f xs -> NP g xs
