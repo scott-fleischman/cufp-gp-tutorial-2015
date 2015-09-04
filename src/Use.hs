@@ -49,3 +49,17 @@ instance Eq' Int where
   eq' = (==)
 
 instance Eq' a => Eq' (BinTree a)
+
+
+class Default a where
+  def :: a
+  default def :: (Generic a, Code a ~ (xs ': xss), All Default xs) => a
+  def = gdef
+
+gdef :: (Generic a, Code a ~ (xs ': xss), All Default xs) => a
+gdef = to (SOP (Z (hcpure (Proxy :: Proxy Default) (I def))))
+
+instance Default Int where
+  def = 42
+
+instance Default a => Default (BinTree a) where
